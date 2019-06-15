@@ -39,10 +39,10 @@ new Vue({
 
 ### *HexContainer* Attributes
 
-* _:cols_ Sets the number of columns in the container. Value is used to compute total width of component in page. (Default: 1)
+* __:cols__ Sets the number of columns in the container. Value is used to compute total width of component in page. (Default: 1)
 
-* _:hex_radius_ Sets the radius of the hexagons (half of width). (Default: 100px)
+* __:hex_radius__ Sets the radius of the hexagons (half of width). (Default: 100px)
 
-* _:popup_scale_ Sets the ratio by which selected radius grows. (Default: 2)
+* __:popup_scale__ Sets the ratio by which selected radius grows. (Default: 2)
 
-* _:rows_ Sets the number of rows in the container. Value is used to compute total height of component in page. (Accepts half-integers as well.) (Default: 1)
+* __:rows__ Sets the number of rows in the container. Value is used to compute total height of component in page. (Accepts half-integers as well.) (Default: 1)

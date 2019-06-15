@@ -34,3 +34,15 @@ new Vue({
 });
 </script>
 ```
+
+## Features
+
+### HexContainer Attributes
+
+#### :cols
+
+Sets the number of columns in the container. Value is used to compute total width of component in page.
+
+#### :rows
+
+Sets the number of rows in the container. Value is used to compute total height of component in page. (Accepts half-integers as well.)

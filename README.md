@@ -22,7 +22,8 @@
 </div>
 
 <script>
-import { Hex, HexContainer } from '{path to components folder}/Vue-Hexagon-Component'
+import HexContainer from '{path-to-folder}/Vue-Hexagon-Component/HexContainer.vue'
+import Hex from '{path-to-folder}/Vue-Hexagon-Component/Hex.vue'
 
 new Vue({
   el: '#app',

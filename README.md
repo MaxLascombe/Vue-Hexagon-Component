@@ -4,6 +4,7 @@
 
 ```html
 <div id="app">
+
   <HexContainer :cols=4 :rows=3>
 
     <Hex>
@@ -15,11 +16,13 @@
       <div slot="hex-title">Who are we?</div>
       <div slot="hex-body">Who are you?</div>
     </Hex>
+
   </HexContainer>
+
 </div>
 
 <script>
-import { Hex, HexContainer } from '{path to components folder}/HexComponent'
+import { Hex, HexContainer } from '{path to components folder}/Vue-Hexagon-Component'
 
 new Vue({
   el: '#app',

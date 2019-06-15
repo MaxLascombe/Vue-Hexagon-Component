@@ -31,4 +31,5 @@ new Vue({
     Hex
   }
 });
-</script>```
+</script>
+```

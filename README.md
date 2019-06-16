@@ -47,6 +47,12 @@ new Vue({
 
 * __:gutter__ Padding between hexagons (px). *(Default: 10)*
 
+* __:hex_opacity__ Base opacity of hexagons. *(Default: 1)*
+
+* __:hex_opacity_back__ Opacity of background hexagons when one is selected. *(Default: 0.5)*
+
+* __:hex_opacity_selected__ Opacity of selected hexagon. *(Default: 1)*
+
 * __:hex_radius__ Radius of the hexagons (i.e. half of width) (px). *(Default: 100)*
 
 * __:id__ HexContainer element id.

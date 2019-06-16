@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" class="hex-container" :style="{height: height, width: width, '--unselected-opacity': unselected_opacity}">
+  <div :id="id" class="hex-container" :style="{height: height, width: width, '--unselected-opacity': unselected_opacity, '--selected-opacity': hex_opacity_select }">
     <slot></slot>
   </div>
 </template>
@@ -11,6 +11,9 @@ export default {
     id: String,
     cols: { default: 1, type: Number },
     rows: { default: 1, type: Number },
+    hex_opacity: { default: 1, type: Number },
+    hex_opacity_back: { default: 0.5, type: Number },
+    hex_opacity_select: { default: 1, type: Number },
     hex_radius: { default: 100, type: Number },
     popup_scale: { default: 2, type: Number },
     title_popup: { default: 1.5, type: Number },
@@ -19,6 +22,11 @@ export default {
     stroke_width: { default: 5, type: Number },
     gutter: { default: 10, type: Number },
     animation_speed: { default: 500, type: Number }
+  },
+  data() {
+    return {
+      one_is_selected: false
+    }
   },
   computed: {
     get_hexs: function () {
@@ -41,11 +49,15 @@ export default {
       return row_space + gutter_space + "px";
     },
     unselected_opacity: function () {
-      return (this.one_is_selected()) ? 0.4 : 0.8;
+      if (this.one_is_selected)
+          return this.hex_opacity_back;
+      else
+        return this.hex_opacity;
     }
   },
   methods: {
     unselect_all: function () {
+      this.one_is_selected = false;
       var hexs = this.get_hexs;
       for (var i = 0; i < hexs.length; i++)
         if (hexs[i].is_selected())
@@ -70,14 +82,6 @@ export default {
         hex.default_col = pos%this.cols;
         hex.default_row = Math.floor(pos/this.cols);
       }
-    },
-    one_is_selected: function () {
-      /*for (var i = 0; i < this.get_hexs; i++) {
-        if (hexs[i].is_selected()) {
-          return true;
-        }
-      }
-      return false;*/
     }
   },
   mounted () {

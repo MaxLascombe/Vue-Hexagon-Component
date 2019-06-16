@@ -3,11 +3,11 @@
   <div :id="id" :class="{'hex': true, 'selected': selected, 'foreground': foreground, 'midground': midground}" :style="{left: left_pos, top: top_pos, '--animation-speed-s': animation_speed_s, '--radius': radius, '--title-popup': title_popup, '--title-popup-scale': 'scale('+title_popup+')', '--popup': popup, '--popup-scale': popup_scale}">
 
     <svg :style="{width: radius*2+'px', height: radius*2+'px'}">
-      <polygon :points="hex_coords" :style="{fill:fill, stroke:stroke, 'stroke-width': stroke_width}" v-on:click="toggle_selected" />
+      <polygon :points="hex_coords" :style="{fill:fill, stroke:stroke, 'stroke-width': stroke_width}" @click="toggle_selected" />
       Sorry, your browser does not support inline SVG.
     </svg>
 
-    <div class="hex-title" v-on:click="toggle_selected">
+    <div class="hex-title" @click="toggle_selected">
       <slot name="hex-title">Default Title</slot>
     </div>
 
@@ -93,16 +93,17 @@ export default {
   methods: {
     toggle_selected: function () {
       if (this.selected) {
-        this.foreground = false;
-        this.midground = true;
-        setTimeout(() => this.midground = false, this.animation_speed_ms); // change z-index only after movement is done
+        this.unselect();
       } else {
         this.$parent.unselect_all();
+        this.$parent.one_is_selected = true;
         this.foreground = true;
+        this.selected = true;
       }
-      this.selected = !this.selected;
     },
     unselect: function () {
+      if (this.selected)
+        this.$parent.one_is_selected = false;
       this.foreground = false;
       this.midground = true;
       setTimeout(() => this.midground = false, this.animation_speed_ms);
@@ -123,7 +124,7 @@ export default {
     pointer-events: none;
     width: calc(var(--radius)*2px); height: calc(var(--radius)*2px);
     overflow: hidden;
-    transition-property: left, top, transform, width, height; transition-duration: var(--animation-speed-s); }
+    transition-property: left, top, transform, width, height, opacity; transition-duration: var(--animation-speed-s); }
 
   .hex > svg {
     pointer-events: none;
@@ -136,7 +137,7 @@ export default {
   .selected {
     transform: translate(-50%, -50%);
     width: calc(var(--radius)*var(--popup)*2px); height: calc(var(--radius)*var(--popup)*2px);
-    opacity: 1.0;  }
+    opacity: var(--selected-opacity); }
 
   .selected > svg { transform: translate(-50%, -50%) var(--popup-scale); }
 
@@ -158,27 +159,29 @@ export default {
     width: calc(var(--radius)*1.5px);
     transition-property: top, transform; transition-duration: var(--animation-speed-s); }
   .hex-body {
-    pointer-events: auto;
     top: 50%; left: 50%;
     transform: translate(-50%);
-    overflow: scroll;
+    overflow: hidden;
     width: calc(100% - 80px);
     height: 200px;
     visibility: hidden;
     opacity: 0;
     transition-property: visibility, opacity, top, max-width; transition-duration: var(--animation-speed-s); }
   .hex-body-content {
-    overflow: scroll;
+    pointer-events: auto;
+    overflow: hidden;
     width: calc(var(--radius)*var(--popup)*2px - 80px);
   }
 
   .left-shape-inside {
+    pointer-events: none;
     float: left;
     width: 120px; height: 200px;
     shape-outside: polygon(0 0, 0 200px, 120px 200px);
   }
 
   .right-shape-inside {
+    pointer-events: none;
     float: right;
     width: 120px; height: 200px;
     shape-outside: polygon(120px 0, 120px 200px, 0 200px);

@@ -1,5 +1,5 @@
 <template>
-  <div id="hex-container" :style="{height: height, width: width, '--unselected-opacity': unselected_opacity}">
+  <div :id="id" class="hex-container" :style="{height: height, width: width, '--unselected-opacity': unselected_opacity}">
     <slot></slot>
   </div>
 </template>
@@ -8,13 +8,14 @@
 export default {
   name: 'HexContainer',
   props: {
+    id: String,
     cols: { default: 1, type: Number },
     rows: { default: 1, type: Number },
     hex_radius: { default: 100, type: Number },
     popup_scale: { default: 2, type: Number },
     title_popup: { default: 1.5, type: Number },
     fill_color: { default: 'white', type: String },
-    stroke_color: { default: '#000000', type: String },
+    stroke_color: { default: 'black', type: String },
     stroke_width: { default: 5, type: Number },
     gutter: { default: 10, type: Number },
     animation_speed: { default: 500, type: Number }
@@ -88,5 +89,5 @@ export default {
 </script>
 
 <style scoped>
-  #hex-container { display: inline-block; position: relative; }
+  .hex-container { display: inline-block; position: relative; }
 </style>

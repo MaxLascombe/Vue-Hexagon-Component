@@ -65,10 +65,10 @@ new Vue({
 
 * __:id__ Hex element id.
 
-* __:col__ Column in which Hex should be placed. *For Hex's where __:col__ and __:row__ are not specified, the Hex's fill the available spaces starting in the top left corner.*
+* __:col__ Column in which Hex should be placed. *(For *Hex*s where __:col__ and __:row__ are not specified, the *Hex*s fill the available spaces starting in the top left corner.*
 
 * __:fill_color__ Color of hexagon background. *(Default: HexContainer's __:fill_color__)*
 
-* __:row__ Row in which Hex should be placed. *See __:col__ for default behaviour.*
+* __:row__ Row in which Hex should be placed. *(See __:col__ for default behaviour.)*
 
 * __:stroke_color__ Color of hexagon border. *(Default: HexContainer's __:stroke_color__)*

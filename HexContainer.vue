@@ -72,9 +72,7 @@ export default {
       }
     },
     one_is_selected: function () {
-      console.log(this.get_hexs);
       /*for (var i = 0; i < this.get_hexs; i++) {
-        console.log(i);
         if (hexs[i].is_selected()) {
           return true;
         }

@@ -12,7 +12,11 @@
     </div>
 
     <div class="hex-body">
-      <slot name="hex-body">Default Body</slot>
+      <div class="hex-body-content">
+        <div class="left-shape-inside"></div>
+        <div class="right-shape-inside"></div>
+        <slot name="hex-body">Default Body</slot>
+      </div>
     </div>
 
   </div>
@@ -42,7 +46,7 @@ export default {
     get_col: function () { return (this.has_pos) ? this.col : this.default_col; },
     get_row: function () { return (this.has_pos) ? this.row : this.default_row; },
     radius: function () { return this.$parent.hex_radius; },
-    popup_scale: function () { return this.$parent.popup_scale; },
+    popup: function () { return this.$parent.popup_scale; },
     title_popup: function () { return this.$parent.title_popup; },
     gutter: function () { return this.$parent.gutter; },
     stroke_width: function () { return this.$parent.stroke_width; },
@@ -82,8 +86,8 @@ export default {
 
       return TL+' '+TR+' '+R+' '+BR+' '+BL+' '+L;
     },
-    popup: function () {
-      return 'scale(' + this.popup_scale + ')';
+    popup_scale: function () {
+      return 'scale(' + this.popup + ')';
     }
   },
   methods: {
@@ -116,10 +120,13 @@ export default {
   .hex, .hex > div, .hex > svg { position: absolute; }
 
   .hex {
+    pointer-events: none;
     width: calc(var(--radius)*2px); height: calc(var(--radius)*2px);
-    transition-property: left, top, transform, height; transition-duration: var(--animation-speed-s); }
+    overflow: hidden;
+    transition-property: left, top, transform, width, height; transition-duration: var(--animation-speed-s); }
 
   .hex > svg {
+    pointer-events: none;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     transition: transform var(--animation-speed-s); }
@@ -128,40 +135,56 @@ export default {
 
   .selected {
     transform: translate(-50%, -50%);
-    height: calc(var(--radius)*var(--title-popup)*2px);
+    width: calc(var(--radius)*var(--popup)*2px); height: calc(var(--radius)*var(--popup)*2px);
     opacity: 1.0;  }
 
-  .selected > svg { transform: translate(-50%, -50%) var(--popup); }
+  .selected > svg { transform: translate(-50%, -50%) var(--popup-scale); }
 
   .selected .hex-title {
-    top: 15%;
-    transform: translate(-50%, 0);
-    width: 100%; }
+    top: 30%;
+    transform: translate(-50%, -50%) var(--title-popup-scale); }
   .selected .hex-body {
-    top: 50%;
-    width: calc(var(--radius)*var(--popup-scale)*1px);
-    max-height: 190px;
+    height: 200px;
     visibility: visible;
     opacity: 1; }
   .midground, .midground .hex-title, .midground .hex-body { z-index: 2; }
   .foreground, .foreground .hex-title, .foreground .hex-body { z-index: 3; }
 
   .hex-title {
+    pointer-events: auto;
     top: 50%; left: 50%;
+    transform-origin: top;
     transform: translate(-50%, -50%);
-    width: 75%;
-    transition-property: top, transform, width, font-size; transition-duration: var(--animation-speed-s); }
+    width: calc(var(--radius)*1.5px);
+    transition-property: top, transform; transition-duration: var(--animation-speed-s); }
   .hex-body {
-    top: 0; left: 50%;
+    pointer-events: auto;
+    top: 50%; left: 50%;
     transform: translate(-50%);
     overflow: scroll;
-    width: calc(var(--radius)*1px);
-    max-height: 100px;
+    width: calc(100% - 80px);
+    height: 200px;
     visibility: hidden;
     opacity: 0;
-    transition-property: visibility, opacity, top, max-width, max-height; transition-duration: var(--animation-speed-s); }
+    transition-property: visibility, opacity, top, max-width; transition-duration: var(--animation-speed-s); }
+  .hex-body-content {
+    overflow: scroll;
+    width: calc(var(--radius)*var(--popup)*2px - 80px);
+  }
+
+  .left-shape-inside {
+    float: left;
+    width: 120px; height: 200px;
+    shape-outside: polygon(0 0, 0 200px, 120px 200px);
+  }
+
+  .right-shape-inside {
+    float: right;
+    width: 120px; height: 200px;
+    shape-outside: polygon(120px 0, 120px 200px, 0 200px);
+  }
 
   /* clickable */
-  polygon, .hex-title { cursor: pointer; }
+  polygon, .hex-title { pointer-events: auto; cursor: pointer; }
 
 </style>

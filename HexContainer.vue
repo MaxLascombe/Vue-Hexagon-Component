@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" class="hex-container" :style="{height: height, width: width, '--bg-op': unselected_opacity, '--sel-op': hex_opacity_select }">
+  <div :id="id" class="hex-container" :style="{height: height, width: width, '--bg-op': unselectedOpacity, '--sel-op': hexOpacitySelect }">
     <slot></slot>
   </div>
 </template>
@@ -11,21 +11,21 @@ export default {
     id: String,
     cols: { default: 1, type: Number },
     rows: { default: 1, type: Number },
-    hex_opacity: { default: 1, type: Number },
-    hex_opacity_back: { default: 0.5, type: Number },
-    hex_opacity_select: { default: 1, type: Number },
-    hex_radius: { default: 100, type: Number },
-    popup_scale: { default: 2, type: Number },
-    title_popup: { default: 1.5, type: Number },
-    fill_color: { default: 'white', type: String },
-    stroke_color: { default: 'black', type: String },
-    stroke_width: { default: 5, type: Number },
+    hexOpacity: { default: 1, type: Number },
+    hexOpacityBack: { default: 0.5, type: Number },
+    hexOpacitySelect: { default: 1, type: Number },
+    hexRadius: { default: 100, type: Number },
+    popupScale: { default: 2, type: Number },
+    titlePopup: { default: 1.5, type: Number },
+    fillColor: { default: 'white', type: String },
+    strokeColor: { default: 'black', type: String },
+    strokeWidth: { default: 5, type: Number },
     gutter: { default: 10, type: Number },
-    animation_speed: { default: 500, type: Number }
+    animationSpeed: { default: 500, type: Number }
   },
-  data() { return { one_is_selected: false } },
+  data() { return { oneIsSelected: false } },
   computed: {
-    get_hexs: function () {
+    getHexs: function () {
       var children = this.$children;
       for (var i = 0; i < children.length; i++)
         if (children[i].$options._componentTag != "Hex")
@@ -33,55 +33,55 @@ export default {
       return children;
     },
     width: function () {
-      var col_space = this.hex_radius*(2 + (this.cols-1)*1.5);
-      var gutter_space = (this.cols-1)*this.gutter*Math.cos(Math.PI/6);
-      return col_space + gutter_space + "px";
+      var colSpace = this.hexRadius*(2 + (this.cols-1)*1.5);
+      var gutterSpace = (this.cols-1)*this.gutter*Math.cos(Math.PI/6);
+      return colSpace + gutterSpace + "px";
     },
     height: function () {
-      var r = this.hex_radius;
+      var r = this.hexRadius;
       var h = Math.sqrt(r*r-(r/2)*(r/2)); // distance from center of hex to middle of edge
-      var row_space = Math.round(2*h*this.rows+2*r-h);
-      var gutter_space = (this.rows-0.5)*this.gutter;
-      return row_space + gutter_space + "px";
+      var rowSpace = Math.round(2*h*this.rows+2*r-h);
+      var gutterSpace = (this.rows-0.5)*this.gutter;
+      return rowSpace + gutterSpace + "px";
     },
-    unselected_opacity: function () {
-      if (this.one_is_selected)
-          return this.hex_opacity_back;
+    unselectedOpacity: function () {
+      if (this.oneIsSelected)
+          return this.hexOpacityBack;
       else
-        return this.hex_opacity;
+        return this.hexOpacity;
     }
   },
   methods: {
-    unselect_all: function () {
-      this.one_is_selected = false;
-      var hexs = this.get_hexs;
+    unselectAll: function () {
+      this.oneIsSelected = false;
+      var hexs = this.getHexs;
       for (var i = 0; i < hexs.length; i++)
-        if (hexs[i].is_selected())
+        if (hexs[i].isSelected())
           hexs[i].unselect();
     },
-    position_hexs: function () {
-      var hexs = this.get_hexs;
-      var need_pos = [];
+    positionHexs: function () {
+      var hexs = this.getHexs;
+      var needPos = [];
       var used = [];
       for (var i = 0; i < hexs.length; i++) {
         var hex = hexs[i];
-        if (hex.has_pos)
+        if (hex.hasPos)
           used[hex.col + hex.row*this.cols] = 1;
         else
-          need_pos.push(hex);
+          needPos.push(hex);
       }
       var pos;
-      for (i = 0, pos = 0; i < need_pos.length; i++, pos++) {
+      for (i = 0, pos = 0; i < needPos.length; i++, pos++) {
         while (used[pos] != undefined) pos++;
-        hex = need_pos[i];
-        hex.default_col = pos%this.cols;
-        hex.default_row = Math.floor(pos/this.cols);
+        hex = needPos[i];
+        hex.defaultCol = pos%this.cols;
+        hex.defaultRow = Math.floor(pos/this.cols);
       }
     }
   },
   mounted () {
-    this.position_hexs();
-    document.addEventListener("click", this.unselect_all);
+    this.positionHexs();
+    document.addEventListener("click", this.unselectAll);
   }
 }
 </script>

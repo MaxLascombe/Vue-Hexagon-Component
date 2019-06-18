@@ -1,9 +1,9 @@
 <template>
 
-  <div :id="id" ref="hex" :class="{'hex': true, 'selected': selected, 'foreground': foreground, 'midground': midground}" :style="{left: left_pos, top: top_pos, '--trans-spd': animation_speed_s, '--r': radius, '--title-popup-scale': 'scale('+title_popup+')', '--popup': popup, '--popup-scale': popup_scale}">
+  <div :id="id" ref="hex" :class="{'hex': true, 'selected': selected, 'foreground': foreground, 'midground': midground}" :style="{left: leftPos, top: topPos, '--trans-spd': animationSpeedS, '--r': radius, '--title-popup-scale': 'scale('+titlePopup+')', '--popup': popup, '--popup-scale': popupScale}">
 
     <svg :style="{width: radius*2+'px', height: radius*2+'px'}">
-      <polygon :points="hex_coords" :style="{fill:fill, stroke:stroke, 'stroke-width': stroke_width}" @click="select" />
+      <polygon :points="hexCoords" :style="{fill:fill, stroke:stroke, 'stroke-width': strokeWidth}" @click="select" />
       Sorry, your browser does not support inline SVG.
     </svg>
 
@@ -30,52 +30,52 @@ export default {
     id: String,
     col: Number,
     row: Number,
-    fill_color: String,
-    stroke_color: String
+    fillColor: String,
+    strokeColor: String
   },
   data() {
     return {
-      default_col: 0,
-      default_row: 0,
+      defaultCol: 0,
+      defaultRow: 0,
       selected: false,
       midground: false,
       foreground: false
     }
   },
   computed: {
-    get_col: function () { return (this.has_pos) ? this.col : this.default_col; },
-    get_row: function () { return (this.has_pos) ? this.row : this.default_row; },
-    radius: function () { return this.$parent.hex_radius; },
-    popup: function () { return this.$parent.popup_scale; },
-    title_popup: function () { return this.$parent.title_popup; },
+    getCol: function () { return (this.hasPos) ? this.col : this.defaultCol; },
+    getRow: function () { return (this.hasPos) ? this.row : this.defaultRow; },
+    radius: function () { return this.$parent.hexRadius; },
+    popup: function () { return this.$parent.popupScale; },
+    titlePopup: function () { return this.$parent.titlePopup; },
     gutter: function () { return this.$parent.gutter; },
-    stroke_width: function () { return this.$parent.stroke_width; },
-    animation_speed_ms: function () { return this.$parent.animation_speed; },
-    has_pos: function () { return (this.col != undefined && this.row != undefined); },
-    fill: function () { return (this.fill_color == undefined) ? this.$parent.fill_color : this.fill_color; },
-    stroke: function () { return (this.stroke_color == undefined) ? this.$parent.stroke_color : this.stroke_color; },
-    top_pos: function () {
+    strokeWidth: function () { return this.$parent.strokeWidth; },
+    animationSpeedMS: function () { return this.$parent.animationSpeed; },
+    hasPos: function () { return (this.col != undefined && this.row != undefined); },
+    fill: function () { return (this.fillColor == undefined) ? this.$parent.fillColor : this.fillColor; },
+    stroke: function () { return (this.strokeColor == undefined) ? this.$parent.strokeColor : this.strokeColor; },
+    topPos: function () {
       var r = this.radius;
       var h = Math.sqrt(r*r-(r/2)*(r/2));
-      var odd_column_gutter_displacement = (this.get_col%2)*this.gutter/2;
+      var oddColumnGutterDisplacement = (this.getCol%2)*this.gutter/2;
       if (this.selected)
         return '50%';
       else
-        return this.get_col%2*h + (2*h)*this.get_row + odd_column_gutter_displacement + this.get_row*this.gutter + "px";
+        return this.getCol%2*h + (2*h)*this.getRow + oddColumnGutterDisplacement + this.getRow*this.gutter + "px";
     },
-    left_pos: function () {
+    leftPos: function () {
       if (this.selected)
         return '50%';
       else
-        return this.get_col*this.radius*1.5 + this.get_col*this.gutter*Math.cos(Math.PI/6) + "px";
+        return this.getCol*this.radius*1.5 + this.getCol*this.gutter*Math.cos(Math.PI/6) + "px";
     },
-    animation_speed_s: function () {
-      return parseFloat(this.animation_speed_ms)/1000 + "s";
+    animationSpeedS: function () {
+      return parseFloat(this.animationSpeedMS)/1000 + "s";
     },
-    hex_coords: function () {
+    hexCoords: function () {
       var r = this.radius;
       var h = Math.sqrt(r*r-(r/2)*(r/2));
-      var s = Math.round(Math.sqrt(2)*this.stroke_width/2);
+      var s = Math.round(Math.sqrt(2)*this.strokeWidth/2);
 
       var TL = (Math.round(r/2)+s) + ',' + (Math.round(r-h)+s);
       var TR = (Math.round(3*r/2)-s) + ',' + (Math.round(r-h)+s);
@@ -86,12 +86,12 @@ export default {
 
       return TL+' '+TR+' '+R+' '+BR+' '+BL+' '+L;
     },
-    popup_scale: function () {
+    popupScale: function () {
       return 'scale(' + this.popup + ')';
     }
   },
   methods: {
-    toggle_selected: function () {
+    toggleSelected: function () {
       if (this.selected) {
         this.unselect();
       } else {
@@ -99,20 +99,20 @@ export default {
       }
     },
     select: function () {
-      this.$parent.unselect_all();
-      this.$parent.one_is_selected = true;
+      this.$parent.unselectAll();
+      this.$parent.oneIsSelected = true;
       this.foreground = true;
       this.selected = true;
     },
     unselect: function () {
       if (this.selected)
-        this.$parent.one_is_selected = false;
+        this.$parent.oneIsSelected = false;
       this.foreground = false;
       this.midground = true;
-      setTimeout(() => this.midground = false, this.animation_speed_ms);
+      setTimeout(() => this.midground = false, this.animationSpeedMS);
       this.selected = false;
     },
-    is_selected: function () {
+    isSelected: function () {
       return this.selected;
     }
   },

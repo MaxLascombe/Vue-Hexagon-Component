@@ -22,16 +22,15 @@
 </div>
 
 <script>
-import HexContainer from '{path-to-folder}/Vue-Hexagon-Component/HexContainer.vue'
-import Hex from '{path-to-folder}/Vue-Hexagon-Component/Hex.vue'
+import { HexContainer, Hex } from '{path-to-folder}/Vue-Hexagon-Component/'
 
-new Vue({
-  el: '#app',
+export default {
+  name: 'app',
   components: {
     HexContainer,
     Hex
   }
-});
+}
 </script>
 ```
 
@@ -43,7 +42,7 @@ new Vue({
 
 * __:cols__ Number of columns in the container. Value is used to compute total width of component in page. *(Default: 1)*
 
-* __:fill_color__ Color of hexagon background. *(Default: 'white')*
+* __fill_color__ Color of hexagon background. *(Default: 'white')*
 
 * __:gutter__ Padding between hexagons (px). *(Default: 10)*
 
@@ -55,13 +54,13 @@ new Vue({
 
 * __:hex_radius__ Radius of the hexagons (i.e. half of width) (px). *(Default: 100)*
 
-* __:id__ HexContainer element id.
+* __id__ HexContainer element id.
 
 * __:popup_scale__ Ratio by which selected hexagon's radius grows. *(Default: 2)*
 
 * __:rows__ Number of rows in the container. Value is used to compute total height of component in page. (Note: accepts half-integers.) *(Default: 1)*
 
-* __:stroke_color__ Color of hexagon border. *(Default: 'black')*
+* __stroke_color__ Color of hexagon border. *(Default: 'black')*
 
 * __:stroke_width__ Width of hexagon border (px). *(Default: 5)*
 
@@ -69,12 +68,12 @@ new Vue({
 
 ### *Hex* Attributes
 
-* __:id__ Hex element id.
+* __id__ Hex element id.
 
 * __:col__ Column in which Hex should be placed. *(For* Hex*s where __:col__ and __:row__ are not specified, the* Hex*s fill the available spaces starting in the top left corner.)*
 
-* __:fill_color__ Color of hexagon background. *(Default: HexContainer's __:fill_color__)*
+* __fill_color__ Color of hexagon background. *(Default: HexContainer's __:fill_color__)*
 
 * __:row__ Row in which Hex should be placed. *(See __:col__ for default behaviour.)*
 
-* __:stroke_color__ Color of hexagon border. *(Default: HexContainer's __:stroke_color__)*
+* __stroke_color__ Color of hexagon border. *(Default: HexContainer's __:stroke_color__)*

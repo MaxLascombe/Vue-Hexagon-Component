@@ -22,16 +22,15 @@
 </div>
 
 <script>
-import HexContainer from '{path-to-folder}/Vue-Hexagon-Component/HexContainer.vue'
-import Hex from '{path-to-folder}/Vue-Hexagon-Component/Hex.vue'
+import { HexContainer, Hex } from '{path-to-folder}/Vue-Hexagon-Component/'
 
-new Vue({
-  el: '#app',
+export default {
+  name: 'app',
   components: {
     HexContainer,
     Hex
   }
-});
+}
 </script>
 ```
 

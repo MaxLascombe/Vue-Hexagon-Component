@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" class="hex-container" :style="{height: height, width: width, '--unselected-opacity': unselected_opacity, '--selected-opacity': hex_opacity_select }">
+  <div :id="id" class="hex-container" :style="{height: height, width: width, '--bg-op': unselected_opacity, '--sel-op': hex_opacity_select }">
     <slot></slot>
   </div>
 </template>
@@ -23,11 +23,7 @@ export default {
     gutter: { default: 10, type: Number },
     animation_speed: { default: 500, type: Number }
   },
-  data() {
-    return {
-      one_is_selected: false
-    }
-  },
+  data() { return { one_is_selected: false } },
   computed: {
     get_hexs: function () {
       var children = this.$children;
@@ -66,14 +62,13 @@ export default {
     position_hexs: function () {
       var hexs = this.get_hexs;
       var need_pos = [];
-      var used = new Array(this.cols*this.rows);
+      var used = [];
       for (var i = 0; i < hexs.length; i++) {
         var hex = hexs[i];
-        if (hex.has_pos) {
+        if (hex.has_pos)
           used[hex.col + hex.row*this.cols] = 1;
-        } else {
+        else
           need_pos.push(hex);
-        }
       }
       var pos;
       for (i = 0, pos = 0; i < need_pos.length; i++, pos++) {
@@ -86,6 +81,7 @@ export default {
   },
   mounted () {
     this.position_hexs();
+    document.addEventListener("click", this.unselect_all);
   }
 }
 </script>

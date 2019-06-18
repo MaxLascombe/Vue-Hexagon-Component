@@ -1,13 +1,13 @@
 <template>
 
-  <div :id="id" :class="{'hex': true, 'selected': selected, 'foreground': foreground, 'midground': midground}" :style="{left: left_pos, top: top_pos, '--animation-speed-s': animation_speed_s, '--radius': radius, '--title-popup': title_popup, '--title-popup-scale': 'scale('+title_popup+')', '--popup': popup, '--popup-scale': popup_scale}">
+  <div :id="id" ref="hex" :class="{'hex': true, 'selected': selected, 'foreground': foreground, 'midground': midground}" :style="{left: left_pos, top: top_pos, '--trans-spd': animation_speed_s, '--r': radius, '--title-popup-scale': 'scale('+title_popup+')', '--popup': popup, '--popup-scale': popup_scale}">
 
     <svg :style="{width: radius*2+'px', height: radius*2+'px'}">
-      <polygon :points="hex_coords" :style="{fill:fill, stroke:stroke, 'stroke-width': stroke_width}" @click="toggle_selected" />
+      <polygon :points="hex_coords" :style="{fill:fill, stroke:stroke, 'stroke-width': stroke_width}" @click="select" />
       Sorry, your browser does not support inline SVG.
     </svg>
 
-    <div class="hex-title" @click="toggle_selected">
+    <div class="hex-title" @click="select">
       <slot name="hex-title">Default Title</slot>
     </div>
 
@@ -95,11 +95,14 @@ export default {
       if (this.selected) {
         this.unselect();
       } else {
-        this.$parent.unselect_all();
-        this.$parent.one_is_selected = true;
-        this.foreground = true;
-        this.selected = true;
+        this.select();
       }
+    },
+    select: function () {
+      this.$parent.unselect_all();
+      this.$parent.one_is_selected = true;
+      this.foreground = true;
+      this.selected = true;
     },
     unselect: function () {
       if (this.selected)
@@ -112,6 +115,9 @@ export default {
     is_selected: function () {
       return this.selected;
     }
+  },
+  mounted () {
+    this.$refs.hex.addEventListener("click", function(e) { e.stopPropagation(); });
   }
 }
 </script>
@@ -122,22 +128,22 @@ export default {
 
   .hex {
     pointer-events: none;
-    width: calc(var(--radius)*2px); height: calc(var(--radius)*2px);
+    width: calc(var(--r)*2px); height: calc(var(--r)*2px);
     overflow: hidden;
-    transition-property: left, top, transform, width, height, opacity; transition-duration: var(--animation-speed-s); }
+    transition-property: left, top, transform, width, height, opacity; transition-duration: var(--trans-spd); }
 
   .hex > svg {
     pointer-events: none;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    transition: transform var(--animation-speed-s); }
+    transition: transform var(--trans-spd); }
 
-  div.hex:not(.selected) { opacity: var(--unselected-opacity); }
+  div.hex:not(.selected) { opacity: var(--bg-op); cursor: pointer; }
 
   .selected {
     transform: translate(-50%, -50%);
-    width: calc(var(--radius)*var(--popup)*2px); height: calc(var(--radius)*var(--popup)*2px);
-    opacity: var(--selected-opacity); }
+    width: calc(var(--r)*var(--popup)*2px); height: calc(var(--r)*var(--popup)*2px);
+    opacity: var(--sel-op); }
 
   .selected > svg { transform: translate(-50%, -50%) var(--popup-scale); }
 
@@ -156,8 +162,8 @@ export default {
     top: 50%; left: 50%;
     transform-origin: top;
     transform: translate(-50%, -50%);
-    width: calc(var(--radius)*1.5px);
-    transition-property: top, transform; transition-duration: var(--animation-speed-s); }
+    width: calc(var(--r)*1.5px);
+    transition-property: top, transform; transition-duration: var(--trans-spd); }
   .hex-body {
     top: 50%; left: 50%;
     transform: translate(-50%);
@@ -166,11 +172,11 @@ export default {
     height: 200px;
     visibility: hidden;
     opacity: 0;
-    transition-property: visibility, opacity, top, max-width; transition-duration: var(--animation-speed-s); }
+    transition-property: visibility, opacity, top, max-width; transition-duration: var(--trans-spd); }
   .hex-body-content {
     pointer-events: auto;
     overflow: hidden;
-    width: calc(var(--radius)*var(--popup)*2px - 80px);
+    width: calc(var(--r)*var(--popup)*2px - 80px);
   }
 
   .left-shape-inside {
@@ -188,6 +194,6 @@ export default {
   }
 
   /* clickable */
-  polygon, .hex-title { pointer-events: auto; cursor: pointer; }
+  polygon, .hex-title { pointer-events: auto; }
 
 </style>

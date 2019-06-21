@@ -89,6 +89,14 @@ export default {
     }
     var clickOutsideClose = clickOutsideSelected.bind(this);
     document.addEventListener("click", clickOutsideClose);
+
+    // Fix for safari positioning.
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.indexOf('safari') != -1 && ua.indexOf('chrome') < 0) {
+      var appendStyle = document.createElement("style");
+      appendStyle.innerHTML = ".selected{transform: translate(calc(var(--r)*var(--popup)*(-1px)), calc(var(--r)*var(--popup)*(-1px))) !important;}";
+      document.head.append(appendStyle);
+    }
   }
 }
 </script>

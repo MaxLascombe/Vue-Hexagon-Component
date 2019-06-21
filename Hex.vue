@@ -54,14 +54,15 @@ export default {
     hasPos: function () { return (this.col != undefined && this.row != undefined); },
     fill: function () { return (this.fillColor == undefined) ? this.$parent.fillColor : this.fillColor; },
     stroke: function () { return (this.strokeColor == undefined) ? this.$parent.strokeColor : this.strokeColor; },
+    colsFlipped: function () { return (this.$parent.flipColumns) ? 1 : 0; },
     topPos: function () {
       var r = this.radius;
       var h = Math.sqrt(r*r-(r/2)*(r/2));
-      var oddColumnGutterDisplacement = (this.getCol%2)*this.gutter/2;
+      var oddColumnGutterDisplacement = ((this.getCol+this.colsFlipped)%2)*this.gutter/2;
       if (this.selected)
         return '50%';
       else
-        return this.getCol%2*h + (2*h)*this.getRow + oddColumnGutterDisplacement + this.getRow*this.gutter + "px";
+        return (this.getCol+this.colsFlipped)%2*h + (2*h)*this.getRow + oddColumnGutterDisplacement + this.getRow*this.gutter + "px";
     },
     leftPos: function () {
       if (this.selected)

@@ -44,6 +44,8 @@ export default {
 
 * __fill-color__ Color of hexagon background. *(Default: 'white')*
 
+* __:flip-columns__ If true, even columns will be above odd ones. *(Default: false)*
+
 * __:gutter__ Padding between hexagons (px). *(Default: 10)*
 
 * __:hex-opacity__ Base opacity of hexagons. *(Default: 1)*

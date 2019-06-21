@@ -21,7 +21,8 @@ export default {
     strokeColor: { default: 'black', type: String },
     strokeWidth: { default: 5, type: Number },
     gutter: { default: 10, type: Number },
-    animationSpeed: { default: 500, type: Number }
+    animationSpeed: { default: 500, type: Number },
+    flipColumns: { default: false, type: Boolean }
   },
   data() { return { oneIsSelected: false } },
   computed: {

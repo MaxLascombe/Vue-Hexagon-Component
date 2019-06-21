@@ -115,11 +115,9 @@ export default {
     isSelected: function () {
       return this.selected;
     }
-  },
-  mounted () {
-    this.$refs.hex.addEventListener("click", function(e) { e.stopPropagation(); });
   }
 }
+
 </script>
 
 <style scoped>
@@ -166,7 +164,7 @@ export default {
     transition-property: top, transform; transition-duration: var(--trans-spd); }
   .hex-body {
     top: 50%; left: 50%;
-    transform: translate(-50%);
+    transform: translate(-50%, 0);
     overflow: hidden;
     width: calc(100% - 80px);
     height: 200px;
@@ -195,5 +193,9 @@ export default {
 
   /* clickable */
   polygon, .hex-title { pointer-events: auto; }
+
+  /*@supports (transition-property: opacity) {
+    .hex { background-color: red; }
+  }*/
 
 </style>

@@ -81,7 +81,13 @@ export default {
   },
   mounted () {
     this.positionHexs();
-    document.addEventListener("click", this.unselectAll);
+    var clickOutsideSelected = function(e) {
+      var selected = e.target.closest(".hex.selected");
+      if (selected == undefined)
+        this.unselectAll();
+    }
+    var clickOutsideClose = clickOutsideSelected.bind(this);
+    document.addEventListener("click", clickOutsideClose);
   }
 }
 </script>
